@@ -1,5 +1,9 @@
 pipeline {
-    agent 'built-in'
+        agent {
+        label {
+            label 'built-in'
+        }
+    }
     environment {
         // Dynamically set port based on branch name
         PORT = "${env.BRANCH_NAME == 'main' ? '8081' : env.BRANCH_NAME == 'Q1Branch' ? '8082' : '8083'}"
