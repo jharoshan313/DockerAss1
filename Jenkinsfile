@@ -2,7 +2,7 @@ pipeline {
     agent 'built-in'
     environment {
         // Dynamically set port based on branch name
-        PORT = "${env.BRANCH_NAME == 'main' ? '8081' : env.BRANCH_NAME == 'Q1Branch' ? '8082' : env.BRANCH_NAME == 'Q2Branch' ? '8083'}"
+        PORT = "${env.BRANCH_NAME == 'main' ? '8081' : env.BRANCH_NAME == 'Q1Branch' ? '8082' : '8083'}"
         CONTAINER_NAME = "web-container-${env.BRANCH_NAME}"
     }
     stages {
