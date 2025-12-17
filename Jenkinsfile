@@ -1,4 +1,4 @@
-pippeline{
+pipeline{
     
     agent{
         label {
