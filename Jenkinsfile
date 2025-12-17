@@ -23,7 +23,7 @@ pipeline {
                 docker run -d \
                     --name ${CONTAINER_NAME} \
                     -p ${PORT}:80 \
-                    -v ${WORKSPACE}/index.html:/usr/local/apache2/htdocs/index.html \
+                    -v ${WORKSPACE}/index.html:/usr/local/apache2/htdocs/index.html:ro \
                     httpd:latest
                 """
             }
