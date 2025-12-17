@@ -1,24 +1,21 @@
 pipeline {
-        agent {
-        label {
-            label 'built-in'
-        }
-    }
+    agent any
     environment {
-        // Dynamically set port based on branch name
-        PORT = "${env.BRANCH_NAME == 'main' ? '8081' : env.BRANCH_NAME == 'Q1Branch' ? '8082' : '8083'}"
+        PORT = "${env.BRANCH_NAME == 'main' ? '8081' : env.BRANCH_NAME == 'dev' ? '8082' : '8083'}"
         CONTAINER_NAME = "web-container-${env.BRANCH_NAME}"
     }
     stages {
         stage('Cleanup') {
             steps {
-                // Remove existing container if it exists
                 sh "docker rm -f ${CONTAINER_NAME} || true"
             }
         }
-        stage('Deploy to Docker') {
+        stage('Fix Permissions & Deploy') {
             steps {
-                // Run httpd image, mounting the branch's index.html to the web server path
+                // 1. Grant read permissions so the container's web user can access the file
+                sh "chmod 644 ${WORKSPACE}/index.html"
+                
+                // 2. Run the container
                 sh """
                 docker run -d \
                     --name ${CONTAINER_NAME} \
