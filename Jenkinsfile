@@ -13,6 +13,7 @@ pipeline {
         stage('Fix Permissions & Deploy') {
             steps {
                 // 1. Grant read permissions so the container's web user can access the file
+                sh "chmod 750 ${WORKSPACE}" 
                 sh "chmod 644 ${WORKSPACE}/index.html"
                 
                 // 2. Run the container
@@ -20,7 +21,7 @@ pipeline {
                 docker run -d \
                     --name ${CONTAINER_NAME} \
                     -p ${PORT}:80 \
-                    -v ${WORKSPACE}/index.html:/usr/local/apache2/htdocs/index.html:ro \
+                    -v ${WORKSPACE}/index.html:/usr/local/apache2/htdocs/index.html:ro,z \
                     httpd:latest
                 """
             }
